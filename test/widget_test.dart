@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:tm_developer_site/main.dart';
+import 'package:tm_developer_site/app.dart';
 
 void main() {
   testWidgets('shows developer landing page copy', (tester) async {
