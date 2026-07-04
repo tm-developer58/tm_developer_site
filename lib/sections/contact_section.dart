@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../content/site_content.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/contact_form.dart';
 import '../widgets/contact_line.dart';
 import '../widgets/section_heading.dart';
 
 class ContactSection extends StatefulWidget {
-  const ContactSection({super.key});
+  const ContactSection({required this.content, required this.email, super.key});
+
+  final ContactContent content;
+  final String email;
 
   @override
   State<ContactSection> createState() => _ContactSectionState();
@@ -34,8 +38,8 @@ class _ContactSectionState extends State<ContactSection> {
     }
 
     final body = [
-      'お名前: ${_nameController.text}',
-      'メール: ${_emailController.text}',
+      '${widget.content.mailNamePrefix}: ${_nameController.text}',
+      '${widget.content.mailEmailPrefix}: ${_emailController.text}',
       '',
       _messageController.text,
     ].join('\n');
@@ -43,7 +47,7 @@ class _ContactSectionState extends State<ContactSection> {
     await launchExternalUri(
       Uri(
         scheme: 'mailto',
-        path: 'tm.developer58@gmail.com',
+        path: widget.email,
         queryParameters: {'subject': _subjectController.text, 'body': body},
       ),
     );
@@ -56,6 +60,7 @@ class _ContactSectionState extends State<ContactSection> {
         final isWide = constraints.maxWidth >= 860;
         final form = ContactForm(
           formKey: _formKey,
+          content: widget.content,
           nameController: _nameController,
           emailController: _emailController,
           subjectController: _subjectController,
@@ -66,10 +71,13 @@ class _ContactSectionState extends State<ContactSection> {
         final copy = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SectionHeading(eyebrow: 'Contact', title: 'アプリ開発・改修の相談'),
+            SectionHeading(
+              eyebrow: widget.content.eyebrow,
+              title: widget.content.title,
+            ),
             const SizedBox(height: 18),
             Text(
-              '既存Flutterアプリの改修、Firebase連携、App Storeリリース周りの相談に対応できます。',
+              widget.content.body,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: const Color(0xFF4B5563),
                 height: 1.7,
@@ -78,10 +86,9 @@ class _ContactSectionState extends State<ContactSection> {
             const SizedBox(height: 22),
             ContactLine(
               icon: Icons.mail_outline,
-              text: 'tm.developer58@gmail.com',
-              onTap: () => launchExternalUri(
-                Uri(scheme: 'mailto', path: 'tm.developer58@gmail.com'),
-              ),
+              text: widget.email,
+              onTap: () =>
+                  launchExternalUri(Uri(scheme: 'mailto', path: widget.email)),
             ),
           ],
         );

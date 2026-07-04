@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'content/site_content.dart';
 import 'pages/home_page.dart';
 
 class TmDeveloperSiteApp extends StatelessWidget {
   const TmDeveloperSiteApp({super.key});
 
+  static const _content = SiteContent.ja;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TM Developer',
+      title: _content.pageTitle,
       debugShowCheckedModeBanner: false,
+      locale: const Locale('ja'),
+      supportedLocales: const [Locale('ja'), Locale('en')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF2563EB),
@@ -22,7 +33,7 @@ class TmDeveloperSiteApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const HomePage(content: _content),
     );
   }
 }

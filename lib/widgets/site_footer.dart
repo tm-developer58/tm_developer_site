@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SiteFooter extends StatelessWidget {
-  const SiteFooter({super.key});
+  const SiteFooter({required this.text, super.key});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class SiteFooter extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1120),
           child: Text(
-            'TM Developer - Flutter / Firebase Developer',
+            text,
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: const Color(0xFFD1D5DB)),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../content/site_content.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/metric_pill.dart';
 import '../widgets/section_heading.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key});
+  const HeroSection({required this.content, super.key});
+
+  final SiteContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,12 @@ class HeroSection extends StatelessWidget {
             builder: (context, constraints) {
               final isWide = constraints.maxWidth >= 860;
               final content = [
-                const Expanded(flex: 6, child: _HeroCopy()),
+                Expanded(flex: 6, child: _HeroCopy(content: this.content)),
                 if (isWide) const SizedBox(width: 48),
-                const Expanded(flex: 4, child: _HeroCapabilityPanel()),
+                Expanded(
+                  flex: 4,
+                  child: _HeroCapabilityPanel(content: this.content),
+                ),
               ];
 
               if (isWide) {
@@ -31,12 +37,12 @@ class HeroSection extends StatelessWidget {
                 );
               }
 
-              return const Column(
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _HeroCopy(),
-                  SizedBox(height: 32),
-                  _HeroCapabilityPanel(),
+                  _HeroCopy(content: this.content),
+                  const SizedBox(height: 32),
+                  _HeroCapabilityPanel(content: this.content),
                 ],
               );
             },
@@ -48,7 +54,9 @@ class HeroSection extends StatelessWidget {
 }
 
 class _HeroCopy extends StatelessWidget {
-  const _HeroCopy();
+  const _HeroCopy({required this.content});
+
+  final SiteContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +70,12 @@ class _HeroCopy extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SectionEyebrow(text: 'Flutter / Firebase Developer'),
+        SectionEyebrow(text: content.hero.eyebrow),
         const SizedBox(height: 16),
-        Text('小規模なアプリ開発・改修を、設計からリリースまで対応します。', style: headlineStyle),
+        Text(content.hero.title, style: headlineStyle),
         const SizedBox(height: 20),
         Text(
-          '個人開発でiOSアプリを複数リリースしています。既存アプリの機能追加・修正、Firebase連携、App Storeリリース対応などに対応できます。',
+          content.hero.body,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             height: 1.7,
             color: const Color(0xFF4B5563),
@@ -82,19 +90,17 @@ class _HeroCopy extends StatelessWidget {
               onPressed: () => launchExternalUri(
                 Uri(
                   scheme: 'mailto',
-                  path: 'tm.developer58@gmail.com',
-                  queryParameters: {'subject': 'アプリ開発の相談'},
+                  path: content.email,
+                  queryParameters: {'subject': content.hero.mailSubject},
                 ),
               ),
               icon: const Icon(Icons.mail_outline),
-              label: const Text('相談する'),
+              label: Text(content.hero.primaryActionLabel),
             ),
             OutlinedButton.icon(
-              onPressed: () => launchExternalUri(
-                Uri.parse('https://github.com/tm-developer58'),
-              ),
+              onPressed: () => launchExternalUri(Uri.parse(content.githubUrl)),
               icon: const Icon(Icons.code),
-              label: const Text('GitHub'),
+              label: Text(content.hero.secondaryActionLabel),
             ),
           ],
         ),
@@ -104,7 +110,9 @@ class _HeroCopy extends StatelessWidget {
 }
 
 class _HeroCapabilityPanel extends StatelessWidget {
-  const _HeroCapabilityPanel();
+  const _HeroCapabilityPanel({required this.content});
+
+  final SiteContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +129,7 @@ class _HeroCapabilityPanel extends StatelessWidget {
           const Icon(Icons.phone_iphone, color: Color(0xFF93C5FD), size: 42),
           const SizedBox(height: 28),
           Text(
-            'Released Apps',
+            content.hero.panelTitle,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w800,
@@ -129,21 +137,22 @@ class _HeroCapabilityPanel extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Flutter / Firebaseで設計・開発・リリース・運用まで経験しています。',
+            content.hero.panelBody,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: const Color(0xFFD1D5DB),
               height: 1.6,
             ),
           ),
           const SizedBox(height: 26),
-          const Wrap(
+          Wrap(
             spacing: 10,
             runSpacing: 10,
-            children: [
-              MetricPill(value: '3', label: '公開アプリ'),
-              MetricPill(value: '5,000+', label: '運用ユーザー'),
-              MetricPill(value: '2-3日', label: '週稼働目安'),
-            ],
+            children: content.metrics
+                .map(
+                  (metric) =>
+                      MetricPill(value: metric.value, label: metric.label),
+                )
+                .toList(),
           ),
         ],
       ),

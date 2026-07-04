@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../content/site_content.dart';
 import '../models/app_work.dart';
 import '../utils/url_launcher_helper.dart';
 import 'info_label.dart';
 
 class AppWorkCard extends StatelessWidget {
-  const AppWorkCard({required this.work, super.key});
+  const AppWorkCard({required this.work, required this.content, super.key});
 
   final AppWork work;
+  final WorksContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +43,9 @@ class AppWorkCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            InfoLabel(label: '使用技術', value: work.tech),
+            InfoLabel(label: content.techLabel, value: work.tech),
             const SizedBox(height: 8),
-            const InfoLabel(label: '担当範囲', value: '設計・開発・リリース・運用'),
+            InfoLabel(label: content.roleLabel, value: content.roleValue),
             const SizedBox(height: 16),
             Text(
               work.note,
@@ -56,7 +58,7 @@ class AppWorkCard extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => launchExternalUri(Uri.parse(work.url)),
               icon: const Icon(Icons.open_in_new, size: 18),
-              label: const Text('App Store'),
+              label: Text(content.appStoreButtonLabel),
             ),
           ],
         ),

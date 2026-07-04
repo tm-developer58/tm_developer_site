@@ -1,11 +1,12 @@
 {
     "name": "TM Developer",
     "short_name": "TM Developer",
+    "lang": "ja",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#F7F8FA",
     "theme_color": "#2563EB",
-    "description": "Flutter / Firebase developer landing page.",
+    "description": "Flutter / Firebaseを中心に、iOSアプリの設計・開発・リリース・運用に対応する個人開発者サイトです。",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

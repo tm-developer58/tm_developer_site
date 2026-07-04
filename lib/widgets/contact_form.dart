@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../content/site_content.dart';
+
 class ContactForm extends StatelessWidget {
   const ContactForm({
     required this.formKey,
+    required this.content,
     required this.nameController,
     required this.emailController,
     required this.subjectController,
@@ -12,6 +15,7 @@ class ContactForm extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
+  final ContactContent content;
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController subjectController;
@@ -27,34 +31,34 @@ class ContactForm extends StatelessWidget {
         children: [
           _ContactTextField(
             controller: nameController,
-            label: '名前',
-            validator: _requiredValidator,
+            label: content.nameLabel,
+            validator: (value) => _requiredValidator(value, content),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: emailController,
-            label: 'メールアドレス',
+            label: content.emailLabel,
             keyboardType: TextInputType.emailAddress,
-            validator: _emailValidator,
+            validator: (value) => _emailValidator(value, content),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: subjectController,
-            label: '件名',
-            validator: _requiredValidator,
+            label: content.subjectLabel,
+            validator: (value) => _requiredValidator(value, content),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: messageController,
-            label: '本文',
+            label: content.messageLabel,
             maxLines: 5,
-            validator: _requiredValidator,
+            validator: (value) => _requiredValidator(value, content),
           ),
           const SizedBox(height: 18),
           FilledButton.icon(
             onPressed: onSubmit,
             icon: const Icon(Icons.send_outlined),
-            label: const Text('メールで送信'),
+            label: Text(content.submitLabel),
           ),
         ],
       ),
@@ -98,20 +102,20 @@ class _ContactTextField extends StatelessWidget {
   }
 }
 
-String? _requiredValidator(String? value) {
+String? _requiredValidator(String? value, ContactContent content) {
   if (value == null || value.trim().isEmpty) {
-    return '入力してください';
+    return content.requiredMessage;
   }
   return null;
 }
 
-String? _emailValidator(String? value) {
-  final message = _requiredValidator(value);
+String? _emailValidator(String? value, ContactContent content) {
+  final message = _requiredValidator(value, content);
   if (message != null) {
     return message;
   }
   if (!value!.contains('@')) {
-    return 'メールアドレスを確認してください';
+    return content.invalidEmailMessage;
   }
   return null;
 }

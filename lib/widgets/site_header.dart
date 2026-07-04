@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../content/site_content.dart';
+
 class SiteHeader extends StatelessWidget {
-  const SiteHeader({super.key});
+  const SiteHeader({required this.content, super.key});
+
+  final SiteContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +18,18 @@ class SiteHeader extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final brand = Text(
-                'TM Developer',
+                content.brandName,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF111827),
                 ),
               );
-              const labels = Wrap(
+              final labels = Wrap(
                 spacing: 18,
                 runSpacing: 8,
-                children: [
-                  _HeaderLabel(text: 'Flutter'),
-                  _HeaderLabel(text: 'Firebase'),
-                  _HeaderLabel(text: 'App Store'),
-                  _HeaderLabel(text: 'Remote Work'),
-                ],
+                children: content.headerLabels
+                    .map((label) => _HeaderLabel(text: label))
+                    .toList(),
               );
 
               if (constraints.maxWidth >= 860) {
