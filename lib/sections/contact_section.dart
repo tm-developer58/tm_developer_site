@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
+import '../services/analytics/analytics_service.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/contact_form.dart';
 import '../widgets/contact_line.dart';
@@ -44,6 +45,7 @@ class _ContactSectionState extends State<ContactSection> {
       _messageController.text,
     ].join('\n');
 
+    await AnalyticsService.logContactClick(source: 'contact_form');
     await launchExternalUri(
       Uri(
         scheme: 'mailto',
@@ -87,8 +89,12 @@ class _ContactSectionState extends State<ContactSection> {
             ContactLine(
               icon: Icons.mail_outline,
               text: widget.email,
-              onTap: () =>
-                  launchExternalUri(Uri(scheme: 'mailto', path: widget.email)),
+              onTap: () async {
+                await AnalyticsService.logContactClick(source: 'contact_line');
+                await launchExternalUri(
+                  Uri(scheme: 'mailto', path: widget.email),
+                );
+              },
             ),
           ],
         );

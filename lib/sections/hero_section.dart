@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
+import '../services/analytics/analytics_service.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/metric_pill.dart';
 import '../widgets/section_heading.dart';
@@ -87,18 +88,24 @@ class _HeroCopy extends StatelessWidget {
           runSpacing: 12,
           children: [
             FilledButton.icon(
-              onPressed: () => launchExternalUri(
-                Uri(
-                  scheme: 'mailto',
-                  path: content.email,
-                  queryParameters: {'subject': content.hero.mailSubject},
-                ),
-              ),
+              onPressed: () async {
+                await AnalyticsService.logContactClick(source: 'hero');
+                await launchExternalUri(
+                  Uri(
+                    scheme: 'mailto',
+                    path: content.email,
+                    queryParameters: {'subject': content.hero.mailSubject},
+                  ),
+                );
+              },
               icon: const Icon(Icons.mail_outline),
               label: Text(content.hero.primaryActionLabel),
             ),
             OutlinedButton.icon(
-              onPressed: () => launchExternalUri(Uri.parse(content.githubUrl)),
+              onPressed: () async {
+                await AnalyticsService.logGithubClick(source: 'hero');
+                await launchExternalUri(Uri.parse(content.githubUrl));
+              },
               icon: const Icon(Icons.code),
               label: Text(content.hero.secondaryActionLabel),
             ),

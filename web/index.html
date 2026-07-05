@@ -31,8 +31,30 @@
 
   <title>TM Developer</title>
   <link rel="manifest" href="manifest.json">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NREKF9VCL6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NREKF9VCL6', {
+      send_page_view: !['localhost', '127.0.0.1', ''].includes(window.location.hostname),
+    });
+  </script>
 </head>
 <body>
+  <script>
+    window.tmAnalyticsTrackEvent = function(name, params) {
+      const hostname = window.location.hostname;
+      if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
+        return;
+      }
+      if (typeof window.gtag !== 'function') {
+        return;
+      }
+      window.gtag('event', name, params || {});
+    };
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

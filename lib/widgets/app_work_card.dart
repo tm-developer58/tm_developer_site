@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
 import '../models/app_work.dart';
+import '../services/analytics/analytics_service.dart';
 import '../utils/url_launcher_helper.dart';
 import 'info_label.dart';
 
@@ -56,7 +57,13 @@ class AppWorkCard extends StatelessWidget {
             ),
             const SizedBox(height: 18),
             OutlinedButton.icon(
-              onPressed: () => launchExternalUri(Uri.parse(work.url)),
+              onPressed: () async {
+                await AnalyticsService.logAppCardClick(
+                  appName: work.title,
+                  url: work.url,
+                );
+                await launchExternalUri(Uri.parse(work.url));
+              },
               icon: const Icon(Icons.open_in_new, size: 18),
               label: Text(content.appStoreButtonLabel),
             ),
