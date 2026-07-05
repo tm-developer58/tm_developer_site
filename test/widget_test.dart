@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:tm_developer_site/app.dart';
+import 'package:tm_developer_site/content/site_content.dart';
+import 'package:tm_developer_site/widgets/contact_form.dart';
 
 void main() {
   testWidgets('shows developer landing page copy', (tester) async {
@@ -23,5 +25,43 @@ void main() {
 
     expect(find.text('相談する'), findsOneWidget);
     expect(find.text('コーヒータイマー'), findsOneWidget);
+  });
+
+  testWidgets('shows validation messages on the contact form', (tester) async {
+    final formKey = GlobalKey<FormState>();
+    final nameController = TextEditingController();
+    final emailController = TextEditingController(text: 'invalid-email');
+    final subjectController = TextEditingController();
+    final messageController = TextEditingController();
+
+    addTearDown(nameController.dispose);
+    addTearDown(emailController.dispose);
+    addTearDown(subjectController.dispose);
+    addTearDown(messageController.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ContactForm(
+            formKey: formKey,
+            content: SiteContent.ja.contact,
+            nameController: nameController,
+            emailController: emailController,
+            subjectController: subjectController,
+            messageController: messageController,
+            onSubmit: () => formKey.currentState!.validate(),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text(SiteContent.ja.contact.submitLabel));
+    await tester.pump();
+
+    expect(find.text(SiteContent.ja.contact.requiredMessage), findsWidgets);
+    expect(
+      find.text(SiteContent.ja.contact.invalidEmailMessage),
+      findsOneWidget,
+    );
   });
 }

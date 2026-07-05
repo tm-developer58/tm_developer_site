@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
 import '../services/analytics/analytics_service.dart';
+import '../utils/contact_mail_uri.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/contact_form.dart';
 import '../widgets/contact_line.dart';
@@ -38,19 +39,15 @@ class _ContactSectionState extends State<ContactSection> {
       return;
     }
 
-    final body = [
-      '${widget.content.mailNamePrefix}: ${_nameController.text}',
-      '${widget.content.mailEmailPrefix}: ${_emailController.text}',
-      '',
-      _messageController.text,
-    ].join('\n');
-
     await AnalyticsService.logContactClick(source: 'contact_form');
     await launchExternalUri(
-      Uri(
-        scheme: 'mailto',
-        path: widget.email,
-        queryParameters: {'subject': _subjectController.text, 'body': body},
+      buildContactMailUri(
+        content: widget.content,
+        recipient: widget.email,
+        name: _nameController.text,
+        email: _emailController.text,
+        subject: _subjectController.text,
+        message: _messageController.text,
       ),
     );
   }

@@ -114,7 +114,9 @@ String? _emailValidator(String? value, ContactContent content) {
   if (message != null) {
     return message;
   }
-  if (!value!.contains('@')) {
+  final email = value!.trim();
+  final emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
+  if (!emailPattern.hasMatch(email)) {
     return content.invalidEmailMessage;
   }
   return null;
