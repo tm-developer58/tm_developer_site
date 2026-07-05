@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SiteFooter extends StatelessWidget {
-  const SiteFooter({required this.text, super.key});
+import '../content/site_content.dart';
+import '../pages/privacy_policy_page.dart';
 
-  final String text;
+class SiteFooter extends StatelessWidget {
+  const SiteFooter({required this.content, super.key});
+
+  final SiteContent content;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +16,30 @@ class SiteFooter extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1120),
-          child: Text(
-            text,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: const Color(0xFFD1D5DB)),
+          child: Wrap(
+            spacing: 18,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                content.footerText,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: const Color(0xFFD1D5DB),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(
+                  context,
+                ).pushNamed(PrivacyPolicyPage.routeName),
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color(0xFFD1D5DB),
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 36),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(content.footerPrivacyLabel),
+              ),
+            ],
           ),
         ),
       ),

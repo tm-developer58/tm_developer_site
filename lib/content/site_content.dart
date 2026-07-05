@@ -19,7 +19,9 @@ class SiteContent {
     required this.works,
     required this.workStyle,
     required this.contact,
+    required this.privacyPolicy,
     required this.footerText,
+    required this.footerPrivacyLabel,
   });
 
   final String brandName;
@@ -35,7 +37,9 @@ class SiteContent {
   final WorksContent works;
   final WorkStyleContent workStyle;
   final ContactContent contact;
+  final PrivacyPolicyContent privacyPolicy;
   final String footerText;
+  final String footerPrivacyLabel;
 
   static const ja = SiteContent(
     brandName: 'TM Developer',
@@ -139,7 +143,47 @@ class SiteContent {
       mailNamePrefix: 'お名前',
       mailEmailPrefix: 'メール',
     ),
+    privacyPolicy: PrivacyPolicyContent(
+      pageTitle: 'プライバシーポリシー',
+      lastUpdatedLabel: '制定日: 2026年7月5日',
+      intro:
+          'TM Developer（以下「当サイト」）は、当サイトの利用者に関する情報を適切に取り扱うため、以下の通りプライバシーポリシーを定めます。',
+      sections: [
+        PrivacyPolicySection(
+          title: '取得する情報',
+          body:
+              '当サイトでは、お問い合わせ時に入力された氏名、メールアドレス、件名、本文を取得する場合があります。また、アクセス解析のため、Cookie等を利用して閲覧状況に関する情報を取得する場合があります。',
+        ),
+        PrivacyPolicySection(
+          title: '利用目的',
+          body: '取得した情報は、お問い合わせへの返信、サービス改善、サイト利用状況の把握、必要な連絡のために利用します。',
+        ),
+        PrivacyPolicySection(
+          title: 'アクセス解析について',
+          body:
+              '当サイトでは、Google Analytics 4を利用しています。Google AnalyticsはCookie等を利用して、利用者の訪問状況を収集します。収集される情報は個人を直接特定するものではありません。',
+        ),
+        PrivacyPolicySection(
+          title: '第三者提供',
+          body: '法令に基づく場合を除き、取得した個人情報を本人の同意なく第三者へ提供することはありません。',
+        ),
+        PrivacyPolicySection(
+          title: '外部リンク',
+          body:
+              '当サイトには外部サイトへのリンクが含まれる場合があります。外部サイトでの個人情報の取り扱いについて、当サイトは責任を負いません。',
+        ),
+        PrivacyPolicySection(
+          title: 'お問い合わせ',
+          body: '本ポリシーに関するお問い合わせは、当サイトのお問い合わせ先メールアドレスまでご連絡ください。',
+        ),
+        PrivacyPolicySection(
+          title: '変更について',
+          body: '本ポリシーの内容は、必要に応じて変更する場合があります。変更後の内容は、当サイトに掲載した時点で有効となります。',
+        ),
+      ],
+    ),
     footerText: 'TM Developer - Flutter / Firebase Developer',
+    footerPrivacyLabel: 'プライバシーポリシー',
   );
 }
 
@@ -256,4 +300,25 @@ class ContactContent {
   final String invalidEmailMessage;
   final String mailNamePrefix;
   final String mailEmailPrefix;
+}
+
+class PrivacyPolicyContent {
+  const PrivacyPolicyContent({
+    required this.pageTitle,
+    required this.lastUpdatedLabel,
+    required this.intro,
+    required this.sections,
+  });
+
+  final String pageTitle;
+  final String lastUpdatedLabel;
+  final String intro;
+  final List<PrivacyPolicySection> sections;
+}
+
+class PrivacyPolicySection {
+  const PrivacyPolicySection({required this.title, required this.body});
+
+  final String title;
+  final String body;
 }

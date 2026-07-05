@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                   email: content.email,
                 ),
               ),
-              SiteFooter(text: content.footerText),
+              SiteFooter(content: content),
             ],
           ),
         ),

@@ -3,11 +3,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'content/site_content.dart';
 import 'pages/home_page.dart';
+import 'pages/privacy_policy_page.dart';
 
 class TmDeveloperSiteApp extends StatelessWidget {
   const TmDeveloperSiteApp({super.key});
 
   static const _content = SiteContent.ja;
+  static const _homeRoute = '/';
+
+  static String get _initialRoute {
+    return Uri.base.path == PrivacyPolicyPage.routeName
+        ? PrivacyPolicyPage.routeName
+        : _homeRoute;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +29,12 @@ class TmDeveloperSiteApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      initialRoute: _initialRoute,
+      routes: {
+        _homeRoute: (_) => const HomePage(content: _content),
+        PrivacyPolicyPage.routeName: (_) =>
+            const PrivacyPolicyPage(content: _content),
+      },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF2563EB),
@@ -33,7 +47,6 @@ class TmDeveloperSiteApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(content: _content),
     );
   }
 }
