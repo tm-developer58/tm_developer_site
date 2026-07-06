@@ -11,8 +11,16 @@ class ContactForm extends StatelessWidget {
     required this.subjectController,
     required this.messageController,
     required this.onSubmit,
+    this.isSubmitting = false,
+    this.statusMessage,
+    this.isError = false,
     super.key,
   });
+
+  static const nameMaxLength = 50;
+  static const emailMaxLength = 100;
+  static const subjectMaxLength = 100;
+  static const messageMaxLength = 1000;
 
   final GlobalKey<FormState> formKey;
   final ContactContent content;
@@ -21,6 +29,9 @@ class ContactForm extends StatelessWidget {
   final TextEditingController subjectController;
   final TextEditingController messageController;
   final VoidCallback onSubmit;
+  final bool isSubmitting;
+  final String? statusMessage;
+  final bool isError;
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +43,72 @@ class ContactForm extends StatelessWidget {
           _ContactTextField(
             controller: nameController,
             label: content.nameLabel,
-            validator: (value) => _requiredValidator(value, content),
+            maxLength: nameMaxLength,
+            validator: (value) => _textValidator(
+              value,
+              content: content,
+              label: content.nameLabel,
+              maxLength: nameMaxLength,
+            ),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: emailController,
             label: content.emailLabel,
             keyboardType: TextInputType.emailAddress,
+            maxLength: emailMaxLength,
             validator: (value) => _emailValidator(value, content),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: subjectController,
             label: content.subjectLabel,
-            validator: (value) => _requiredValidator(value, content),
+            maxLength: subjectMaxLength,
+            validator: (value) => _textValidator(
+              value,
+              content: content,
+              label: content.subjectLabel,
+              maxLength: subjectMaxLength,
+            ),
           ),
           const SizedBox(height: 14),
           _ContactTextField(
             controller: messageController,
             label: content.messageLabel,
             maxLines: 5,
-            validator: (value) => _requiredValidator(value, content),
+            maxLength: messageMaxLength,
+            validator: (value) => _textValidator(
+              value,
+              content: content,
+              label: content.messageLabel,
+              maxLength: messageMaxLength,
+            ),
           ),
           const SizedBox(height: 18),
           FilledButton.icon(
-            onPressed: onSubmit,
-            icon: const Icon(Icons.send_outlined),
-            label: Text(content.submitLabel),
+            onPressed: isSubmitting ? null : onSubmit,
+            icon: isSubmitting
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.send_outlined),
+            label: Text(
+              isSubmitting ? content.submittingLabel : content.submitLabel,
+            ),
           ),
+          if (statusMessage != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              statusMessage!,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: isError
+                    ? Theme.of(context).colorScheme.error
+                    : const Color(0xFF166534),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -73,6 +122,7 @@ class _ContactTextField extends StatelessWidget {
     required this.validator,
     this.keyboardType,
     this.maxLines = 1,
+    this.maxLength,
   });
 
   final TextEditingController controller;
@@ -80,6 +130,7 @@ class _ContactTextField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextInputType? keyboardType;
   final int maxLines;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +138,7 @@ class _ContactTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      maxLength: maxLength,
       validator: validator,
       decoration: InputDecoration(
         labelText: label,
@@ -115,9 +167,41 @@ String? _emailValidator(String? value, ContactContent content) {
     return message;
   }
   final email = value!.trim();
+  final lengthMessage = _maxLengthValidator(
+    email,
+    label: content.emailLabel,
+    maxLength: ContactForm.emailMaxLength,
+  );
+  if (lengthMessage != null) {
+    return lengthMessage;
+  }
   final emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
   if (!emailPattern.hasMatch(email)) {
     return content.invalidEmailMessage;
+  }
+  return null;
+}
+
+String? _textValidator(
+  String? value, {
+  required ContactContent content,
+  required String label,
+  required int maxLength,
+}) {
+  final message = _requiredValidator(value, content);
+  if (message != null) {
+    return message;
+  }
+  return _maxLengthValidator(value!.trim(), label: label, maxLength: maxLength);
+}
+
+String? _maxLengthValidator(
+  String value, {
+  required String label,
+  required int maxLength,
+}) {
+  if (value.length > maxLength) {
+    return '$labelは$maxLength文字以内で入力してください';
   }
   return null;
 }

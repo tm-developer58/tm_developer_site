@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
+import '../pages/contact_page.dart';
 import '../services/analytics/analytics_service.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/metric_pill.dart';
@@ -90,13 +91,10 @@ class _HeroCopy extends StatelessWidget {
             FilledButton.icon(
               onPressed: () async {
                 await AnalyticsService.logContactClick(source: 'hero');
-                await launchExternalUri(
-                  Uri(
-                    scheme: 'mailto',
-                    path: content.email,
-                    queryParameters: {'subject': content.hero.mailSubject},
-                  ),
-                );
+                if (!context.mounted) {
+                  return;
+                }
+                await Navigator.of(context).pushNamed(ContactPage.routeName);
               },
               icon: const Icon(Icons.mail_outline),
               label: Text(content.hero.primaryActionLabel),

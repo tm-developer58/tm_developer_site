@@ -133,11 +133,20 @@ class SiteContent {
       eyebrow: 'Contact',
       title: 'アプリ開発・改修の相談',
       body: '既存Flutterアプリの改修、Firebase連携、App Storeリリース周りの相談に対応できます。',
+      emailOptionTitle: 'メールで直接相談',
+      emailOptionBody:
+          'メールアプリを開いて送信します。添付資料がある場合や、普段のメールから連絡したい場合はこちらを使ってください。',
+      emailOptionButtonLabel: 'メールを開く',
+      formOptionTitle: 'フォームで送信',
+      formOptionBody: 'このページから送信します。入力内容は問い合わせ確認用に保存されます。',
       nameLabel: '名前',
       emailLabel: 'メールアドレス',
       subjectLabel: '件名',
       messageLabel: '本文',
-      submitLabel: 'メールで送信',
+      submitLabel: '送信する',
+      submittingLabel: '送信中',
+      successMessage: '送信しました。確認後に返信します。',
+      failureMessage: '送信できませんでした。メールリンクからご連絡ください。',
       requiredMessage: '入力してください',
       invalidEmailMessage: 'メールアドレスを確認してください',
       mailNamePrefix: 'お名前',
@@ -277,11 +286,19 @@ class ContactContent {
     required this.eyebrow,
     required this.title,
     required this.body,
+    required this.emailOptionTitle,
+    required this.emailOptionBody,
+    required this.emailOptionButtonLabel,
+    required this.formOptionTitle,
+    required this.formOptionBody,
     required this.nameLabel,
     required this.emailLabel,
     required this.subjectLabel,
     required this.messageLabel,
     required this.submitLabel,
+    required this.submittingLabel,
+    required this.successMessage,
+    required this.failureMessage,
     required this.requiredMessage,
     required this.invalidEmailMessage,
     required this.mailNamePrefix,
@@ -291,11 +308,19 @@ class ContactContent {
   final String eyebrow;
   final String title;
   final String body;
+  final String emailOptionTitle;
+  final String emailOptionBody;
+  final String emailOptionButtonLabel;
+  final String formOptionTitle;
+  final String formOptionBody;
   final String nameLabel;
   final String emailLabel;
   final String subjectLabel;
   final String messageLabel;
   final String submitLabel;
+  final String submittingLabel;
+  final String successMessage;
+  final String failureMessage;
   final String requiredMessage;
   final String invalidEmailMessage;
   final String mailNamePrefix;

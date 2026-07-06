@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'content/site_content.dart';
+import 'pages/contact_page.dart';
 import 'pages/home_page.dart';
 import 'pages/privacy_policy_page.dart';
 
@@ -12,9 +13,11 @@ class TmDeveloperSiteApp extends StatelessWidget {
   static const _homeRoute = '/';
 
   static String get _initialRoute {
-    return Uri.base.path == PrivacyPolicyPage.routeName
-        ? PrivacyPolicyPage.routeName
-        : _homeRoute;
+    return switch (Uri.base.path) {
+      PrivacyPolicyPage.routeName => PrivacyPolicyPage.routeName,
+      ContactPage.routeName => ContactPage.routeName,
+      _ => _homeRoute,
+    };
   }
 
   @override
@@ -32,6 +35,7 @@ class TmDeveloperSiteApp extends StatelessWidget {
       initialRoute: _initialRoute,
       routes: {
         _homeRoute: (_) => const HomePage(content: _content),
+        ContactPage.routeName: (_) => const ContactPage(content: _content),
         PrivacyPolicyPage.routeName: (_) =>
             const PrivacyPolicyPage(content: _content),
       },
