@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../firebase_options.dart';
 
@@ -13,10 +14,33 @@ class FirebaseBootstrap {
       return false;
     }
 
-    await Firebase.initializeApp(options: FirebaseWebConfig.web);
+    try {
+      await Firebase.initializeApp(options: FirebaseWebConfig.web);
+    } catch (error, stackTrace) {
+      FlutterError.reportError(
+        FlutterErrorDetails(
+          exception: error,
+          stack: stackTrace,
+          library: 'firebase bootstrap',
+          context: ErrorDescription('while initializing Firebase'),
+        ),
+      );
+      return false;
+    }
 
     if (FirebaseWebConfig.appCheckSiteKey.isNotEmpty) {
-      unawaited(_activateAppCheck());
+      unawaited(
+        _activateAppCheck().catchError((Object error, StackTrace stackTrace) {
+          FlutterError.reportError(
+            FlutterErrorDetails(
+              exception: error,
+              stack: stackTrace,
+              library: 'firebase bootstrap',
+              context: ErrorDescription('while activating Firebase App Check'),
+            ),
+          );
+        }),
+      );
     }
 
     return true;
