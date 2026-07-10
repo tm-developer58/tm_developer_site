@@ -3,7 +3,7 @@ import 'package:tm_developer_site/models/contact_message.dart';
 import 'package:tm_developer_site/services/contact/contact_message_sender.dart';
 
 void main() {
-  test('builds trimmed firestore contact message data', () {
+  test('builds trimmed callable contact message data', () {
     const message = ContactMessage(
       name: '  Test User  ',
       email: '  user@example.com  ',
@@ -11,18 +11,16 @@ void main() {
       message: '  Flutterアプリの改修を相談したいです。  ',
     );
 
-    expect(message.toFirestoreData(createdAt: 'server-time'), {
+    expect(message.toCallableData(), {
       'name': 'Test User',
       'email': 'user@example.com',
       'subject': 'App相談',
       'message': 'Flutterアプリの改修を相談したいです。',
-      'createdAt': 'server-time',
-      'status': 'new',
-      'source': 'contact_form',
     });
   });
 
-  test('uses contactMessages collection', () {
-    expect(FirebaseContactMessageSender.collectionName, 'contactMessages');
+  test('uses the regional callable function', () {
+    expect(FirebaseContactMessageSender.functionName, 'submitContactMessage');
+    expect(FirebaseContactMessageSender.region, 'asia-northeast1');
   });
 }

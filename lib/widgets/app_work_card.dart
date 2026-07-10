@@ -145,13 +145,7 @@ class AppWorkCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   InfoLabel(label: content.roleLabel, value: content.roleValue),
                   const SizedBox(height: 16),
-                  Text(
-                    work.note,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: SiteColors.textMuted,
-                      height: 1.65,
-                    ),
-                  ),
+                  InfoLabel(label: content.focusLabel, value: work.note),
                   const SizedBox(height: 20),
                   OutlinedButton.icon(
                     onPressed: _openAppStore,

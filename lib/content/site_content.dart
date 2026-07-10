@@ -81,7 +81,7 @@ class SiteContent {
       MetricContent(
         icon: Icons.people_alt_outlined,
         value: '5,000+',
-        label: '運用ユーザー',
+        label: '最大月間利用実績',
       ),
       MetricContent(
         icon: Icons.calendar_today_outlined,
@@ -93,7 +93,7 @@ class SiteContent {
       eyebrow: 'About',
       title: '個人開発で得た実装力を、実務の小さな前進に使います。',
       body:
-          'Flutter / Firebaseを中心に個人開発をしています。独学でiOSアプリを複数リリースし、1つのアプリではアクティブユーザー約5,000人の運用経験があります。',
+          'Flutter / Firebaseを中心に個人開発をしています。独学でiOSアプリを複数リリースし、1つのアプリでは月間約5,000人に利用された経験があります。',
     ),
     skills: SkillsContent(
       eyebrow: 'Skills',
@@ -115,6 +115,7 @@ class SiteContent {
       techLabel: '使用技術',
       roleLabel: '担当範囲',
       roleValue: '設計・開発・リリース・運用',
+      focusLabel: '取り組み',
       items: [
         AppWork(
           icon: Icons.coffee_outlined,
@@ -134,7 +135,7 @@ class SiteContent {
           title: '音量調整アプリ',
           summary: '音量を細かく調整できるユーティリティアプリ',
           tech: 'Flutter',
-          note: '日常的にすぐ使えるよう、操作をできるだけ少なくし、シンプルな機能に絞って実装しました。',
+          note: '端末ごとの挙動差やOS側の制約を確かめながら、実機で操作時のレスポンスを調整しました。',
           url: 'https://apps.apple.com/jp/app/音量調整-音量を微調整できるアプリ/id6502644391',
         ),
         AppWork(
@@ -178,6 +179,7 @@ class SiteContent {
       submittingLabel: '送信中',
       successMessage: '送信しました。確認後に返信します。',
       failureMessage: '送信できませんでした。メールリンクからご連絡ください。',
+      rateLimitedMessage: '送信回数が上限に達しました。時間をおいて再度お試しください。',
       requiredMessage: '入力してください',
       invalidEmailMessage: 'メールアドレスを確認してください',
       maxLengthMessageTemplate: '{label}は{maxLength}文字以内で入力してください',
@@ -187,7 +189,7 @@ class SiteContent {
     privacyPolicy: PrivacyPolicyContent(
       pageTitle: 'プライバシーポリシー',
       backToHomeLabel: 'トップへ戻る',
-      lastUpdatedLabel: '制定日: 2026年7月5日',
+      lastUpdatedLabel: '制定日: 2026年7月5日 / 更新日: 2026年7月10日',
       intro:
           'TM Developer（以下「当サイト」）は、当サイトの利用者に関する情報を適切に取り扱うため、以下の通りプライバシーポリシーを定めます。',
       sections: [
@@ -204,6 +206,11 @@ class SiteContent {
           title: 'アクセス解析について',
           body:
               '当サイトでは、Google Analytics 4を利用しています。Google AnalyticsはCookie等を利用して、利用者の訪問状況を収集します。収集される情報は個人を直接特定するものではありません。',
+        ),
+        PrivacyPolicySection(
+          title: '不正利用防止',
+          body:
+              'お問い合わせフォームの不正利用を防止するため、接続元情報をそのまま保存せず、秘密値を用いてハッシュ化した識別子を送信回数の判定に利用します。この識別子には24時間の有効期限を設定し、期限後に削除対象とします。',
         ),
         PrivacyPolicySection(
           title: '第三者提供',
@@ -264,7 +271,7 @@ class SiteContent {
       MetricContent(
         icon: Icons.people_alt_outlined,
         value: '5,000+',
-        label: 'Active users',
+        label: 'Peak monthly reach',
       ),
       MetricContent(
         icon: Icons.calendar_today_outlined,
@@ -276,7 +283,7 @@ class SiteContent {
       eyebrow: 'About',
       title: 'Practical product experience that moves your app forward.',
       body:
-          'I am an independent developer specializing in Flutter and Firebase. I have taught myself to build and release multiple iOS apps, including one serving approximately 5,000 active users.',
+          'I am an independent developer specializing in Flutter and Firebase. I have built and released multiple iOS apps independently, including one that reached approximately 5,000 users in a month.',
     ),
     skills: SkillsContent(
       eyebrow: 'Skills',
@@ -298,6 +305,7 @@ class SiteContent {
       techLabel: 'Technology',
       roleLabel: 'Responsibilities',
       roleValue: 'Design, development, release, and operation',
+      focusLabel: 'Implementation focus',
       items: [
         AppWork(
           icon: Icons.coffee_outlined,
@@ -319,7 +327,7 @@ class SiteContent {
           summary: 'A utility for making precise volume adjustments',
           tech: 'Flutter',
           note:
-              'Kept interactions to a minimum and focused the feature set so the app is quick to use in everyday situations.',
+              'Tested on physical devices to tune response behavior while working within platform constraints and device differences.',
           url: 'https://apps.apple.com/jp/app/音量調整-音量を微調整できるアプリ/id6502644391',
         ),
         AppWork(
@@ -377,6 +385,8 @@ class SiteContent {
           'Your message has been sent. I will reply after reviewing it.',
       failureMessage:
           'Your message could not be sent. Please contact me using the email link.',
+      rateLimitedMessage:
+          'The submission limit has been reached. Please wait and try again later.',
       requiredMessage: 'This field is required',
       invalidEmailMessage: 'Enter a valid email address',
       maxLengthMessageTemplate:
@@ -387,7 +397,7 @@ class SiteContent {
     privacyPolicy: PrivacyPolicyContent(
       pageTitle: 'Privacy Policy',
       backToHomeLabel: 'Back to home',
-      lastUpdatedLabel: 'Effective date: July 5, 2026',
+      lastUpdatedLabel: 'Effective July 5, 2026 / Updated July 10, 2026',
       intro:
           'TM Developer ("this site") has established this Privacy Policy to explain how information about visitors is handled appropriately.',
       sections: [
@@ -405,6 +415,11 @@ class SiteContent {
           title: 'Analytics',
           body:
               'This site uses Google Analytics 4. Google Analytics uses cookies and similar technologies to collect information about visits. The information collected does not directly identify individual visitors.',
+        ),
+        PrivacyPolicySection(
+          title: 'Abuse prevention',
+          body:
+              'To prevent misuse of the contact form, connection information is not stored directly. Instead, a secret-keyed hashed identifier is used only to evaluate submission frequency. The identifier is assigned a 24-hour expiration and becomes eligible for deletion after it expires.',
         ),
         PrivacyPolicySection(
           title: 'Disclosure to third parties',
@@ -516,6 +531,7 @@ class WorksContent {
     required this.techLabel,
     required this.roleLabel,
     required this.roleValue,
+    required this.focusLabel,
   });
 
   final String eyebrow;
@@ -525,6 +541,7 @@ class WorksContent {
   final String techLabel;
   final String roleLabel;
   final String roleValue;
+  final String focusLabel;
 }
 
 class WorkStyleContent {
@@ -557,6 +574,7 @@ class ContactContent {
     required this.submittingLabel,
     required this.successMessage,
     required this.failureMessage,
+    required this.rateLimitedMessage,
     required this.requiredMessage,
     required this.invalidEmailMessage,
     required this.maxLengthMessageTemplate,
@@ -580,6 +598,7 @@ class ContactContent {
   final String submittingLabel;
   final String successMessage;
   final String failureMessage;
+  final String rateLimitedMessage;
   final String requiredMessage;
   final String invalidEmailMessage;
   final String maxLengthMessageTemplate;

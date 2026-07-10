@@ -10,10 +10,16 @@ import '../widgets/contact_form.dart';
 import '../widgets/section_heading.dart';
 
 class ContactSection extends StatefulWidget {
-  const ContactSection({required this.content, required this.email, super.key});
+  const ContactSection({
+    required this.content,
+    required this.email,
+    this.messageSender,
+    super.key,
+  });
 
   final ContactContent content;
   final String email;
+  final ContactMessageSender? messageSender;
 
   @override
   State<ContactSection> createState() => _ContactSectionState();
@@ -25,10 +31,17 @@ class _ContactSectionState extends State<ContactSection> {
   final _emailController = TextEditingController();
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
-  final _messageSender = const FirebaseContactMessageSender();
+  late final ContactMessageSender _messageSender;
   bool _isSubmitting = false;
   bool _isError = false;
   String? _statusMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _messageSender =
+        widget.messageSender ?? const FirebaseContactMessageSender();
+  }
 
   @override
   void dispose() {
@@ -60,6 +73,7 @@ class _ContactSectionState extends State<ContactSection> {
           message: _messageController.text,
         ),
       );
+      await AnalyticsService.logContactSubmitSuccess();
 
       _nameController.clear();
       _emailController.clear();
@@ -73,7 +87,19 @@ class _ContactSectionState extends State<ContactSection> {
         _isError = false;
         _statusMessage = widget.content.successMessage;
       });
+    } on ContactRateLimitedException {
+      await AnalyticsService.logContactRateLimited();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isError = true;
+        _statusMessage = widget.content.rateLimitedMessage;
+      });
     } catch (_) {
+      await AnalyticsService.logContactSubmitFailure(
+        reason: 'submission_error',
+      );
       if (!mounted) {
         return;
       }

@@ -19,6 +19,9 @@ localhost、127.0.0.1、空のhostnameではイベントを送信しません。
 | --- | --- | --- |
 | `page_view` | GA4標準値 | ページ閲覧 |
 | `contact_click` | `source` | 相談導線の利用 |
+| `contact_submit_success` | なし | Firestore保存成功 |
+| `contact_submit_failure` | `reason` | Callable送信失敗 |
+| `contact_rate_limited` | なし | 回数制限による拒否 |
 | `github_click` | `source` | GitHub導線の利用 |
 | `app_card_click` | `app_name`, `url` | App Store導線の利用 |
 
@@ -35,6 +38,8 @@ contact_form
 ```text
 hero
 ```
+
+問い合わせの名前、メールアドレス、件名、本文、IPハッシュはAnalyticsへ送信しません。
 
 ## イベントを追加する
 

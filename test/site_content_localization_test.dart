@@ -21,6 +21,8 @@ void main() {
     );
     expect(SiteContent.ja.privacyPolicy.backToHomeLabel, 'トップへ戻る');
     expect(SiteContent.en.privacyPolicy.backToHomeLabel, 'Back to home');
+    expect(SiteContent.ja.contact.rateLimitedMessage, isNotEmpty);
+    expect(SiteContent.en.contact.rateLimitedMessage, isNotEmpty);
   });
 
   test('both bundles cover every work item and privacy section', () {
@@ -38,6 +40,9 @@ void main() {
       expect(work.iconAsset, startsWith('assets/apps/'));
       expect(work.screenshotAsset, startsWith('assets/apps/'));
     }
+    expect(SiteContent.ja.works.focusLabel, '取り組み');
+    expect(SiteContent.en.works.focusLabel, 'Implementation focus');
+    expect(SiteContent.ja.metrics[1].label, '最大月間利用実績');
   });
 
   test('contact length messages interpolate label and limit', () {

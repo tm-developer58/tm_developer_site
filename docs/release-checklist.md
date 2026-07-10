@@ -21,6 +21,7 @@ dart format --output=none --set-exit-if-changed lib test
 flutter analyze
 flutter test
 flutter build web --release
+cd functions && npm test && npm audit --omit=dev && cd ..
 ```
 
 すべて成功してから`build/web`を公開します。
@@ -44,15 +45,24 @@ flutter run -d web-server --web-hostname 127.0.0.1 --web-port 8081
 
 ## 4. Firebaseへデプロイする
 
-Hostingのみを更新する場合:
+初回はBlazeプランへ変更し、次のSecretsを設定します。
 
 ```bash
-firebase deploy --only hosting
+firebase functions:secrets:set GMAIL_APP_PASSWORD
+firebase functions:secrets:set CONTACT_RATE_LIMIT_PEPPER
 ```
 
-Firestore Rulesも更新する場合:
+既存フォームを止めないため、FunctionとTTL設定を先に公開します。
 
 ```bash
+firebase deploy --only functions,firestore:indexes
+```
+
+成功後にHostingを公開します。
+
+```bash
+flutter build web --release
+firebase deploy --only hosting
 firebase deploy --only firestore:rules
 ```
 
@@ -76,6 +86,9 @@ https://tm-developer-site.web.app/en/privacy
 - canonical / hreflang / title / descriptionがページと言語に合っている
 - OGP画像が`1200×630`で取得できる
 - 問い合わせ送信が成功し、Firestoreの`contactMessages`へ保存される
+- Gmail通知が届き、`Reply-To`が問い合わせ者になる
+- `notificationStatus`が`sent`になる
+- 短時間の4回目送信が回数制限になる
 - Google Analytics 4の本番イベントが必要に応じて取得できる
 
 古い画面が残る場合は、デプロイ完了を確認してからハードリロードまたはプライベート

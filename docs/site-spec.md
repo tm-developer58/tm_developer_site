@@ -41,7 +41,7 @@ URLは`usePathUrlStrategy()`を使ったhashなしの形式です。Firebase Hos
 
 1. Header: セクションナビゲーション、JA / EN、相談ボタン
 2. Hero: 対応領域、相談・GitHub導線、公開アプリ画像
-3. Metrics: 公開アプリ、運用ユーザー、週稼働目安
+3. Metrics: 公開アプリ、最大月間利用実績、週稼働目安
 4. About: 個人開発・運用経験
 5. Works: App Store公開アプリ、技術、担当範囲、工夫
 6. Skills: Flutter / Firebase / App Store関連スキル
@@ -66,7 +66,7 @@ URLは`usePathUrlStrategy()`を使ったhashなしの形式です。Firebase Hos
 問い合わせ方法は次の2つです。
 
 - メールアプリを開くリンク
-- Firestoreへ保存するフォーム
+- Cloud Functions経由でFirestoreへ保存するフォーム
 
 フォーム項目:
 
@@ -82,13 +82,19 @@ Firestore仕様:
 - Collection: `contactMessages`
 - 固定値: `status = new`、`source = contact_form`
 - `createdAt`はserver timestamp
-- クライアントからはcreateのみ許可
-- read / update / deleteは禁止
-- 必須項目、型、文字数、メール形式を`firestore.rules`でも検証
+- ブラウザからのread / create / update / deleteは禁止
+- Callable FunctionのAdmin SDKだけが作成・通知状態更新を行う
+- Function側で必須項目、型、文字数、メール形式を検証する
+- App Checkを必須化する
+- IPを秘密値でハッシュ化し、10分3回・24時間10回に制限する
+- 回数制限レコードは24時間の有効期限とFirestore TTLを使う
 - 内容はFirebase Consoleで確認する
 
 WebではFirebase App CheckのreCAPTCHA v3を使用します。サイトキーはクライアント設定、
 secret keyはFirebase Consoleで管理し、リポジトリへ保存しません。
+
+問い合わせ保存後はGmailへ全文を通知し、問い合わせ者メールを`Reply-To`へ設定します。
+通知失敗は問い合わせ保存を失敗扱いにせず、`notificationStatus`とCloud Loggingへ残します。
 
 ## メタデータとOGP
 
@@ -104,6 +110,9 @@ Google Analytics 4で次を計測します。
 
 - `page_view`
 - `contact_click`
+- `contact_submit_success`
+- `contact_submit_failure`
+- `contact_rate_limited`
 - `github_click`
 - `app_card_click`
 
@@ -130,7 +139,7 @@ Firebase Hostingの公開ディレクトリは`build/web`です。Flutter Webの
 - Flutterソース、テスト、assets、webファイル
 - READMEと`docs/`
 - `firebase.json.example`
-- `firestore.rules`
+- `firestore.rules`と`firestore.indexes.json`
 
 コミットしないもの:
 
@@ -147,5 +156,7 @@ Firebase Hostingの公開ディレクトリは`build/web`です。Flutter Webの
 - Works画像全体が表示される
 - App Store、GitHub、メールリンクが正しい
 - Contactフォームの検証とFirestore保存が動く
+- 回数制限、Gmail通知、通知状態記録が動く
+- Analyticsで送信成功・失敗・回数制限を区別できる
 - `flutter analyze`と`flutter test`が成功する
 - ブラウザコンソールに新規エラーがない
