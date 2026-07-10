@@ -15,10 +15,10 @@ class WorksSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeading(eyebrow: content.eyebrow, title: content.title),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
         LayoutBuilder(
           builder: (context, constraints) {
-            final isWide = constraints.maxWidth >= 900;
+            final isWide = constraints.maxWidth >= 980;
             if (isWide) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class WorksSection extends StatelessWidget {
                       (app) => Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(
-                            right: app == content.items.last ? 0 : 14,
+                            right: app == content.items.last ? 0 : 20,
                           ),
                           child: AppWorkCard(work: app, content: content),
                         ),
@@ -42,7 +42,7 @@ class WorksSection extends StatelessWidget {
                   .map(
                     (app) => Padding(
                       padding: EdgeInsets.only(
-                        bottom: app == content.items.last ? 0 : 14,
+                        bottom: app == content.items.last ? 0 : 20,
                       ),
                       child: AppWorkCard(work: app, content: content),
                     ),

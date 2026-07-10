@@ -4,6 +4,7 @@ import '../content/site_content.dart';
 import '../models/contact_message.dart';
 import '../services/contact/contact_message_sender.dart';
 import '../services/analytics/analytics_service.dart';
+import '../theme/site_theme.dart';
 import '../utils/url_launcher_helper.dart';
 import '../widgets/contact_form.dart';
 import '../widgets/section_heading.dart';
@@ -105,7 +106,7 @@ class _ContactSectionState extends State<ContactSection> {
             Text(
               widget.content.body,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: const Color(0xFF4B5563),
+                color: SiteColors.textMuted,
                 height: 1.7,
               ),
             ),
@@ -122,7 +123,7 @@ class _ContactSectionState extends State<ContactSection> {
               SelectableText(
                 widget.email,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: const Color(0xFF2563EB),
+                  color: SiteColors.blue,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -166,7 +167,7 @@ class _ContactSectionState extends State<ContactSection> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(flex: 4, child: emailPanel),
-                  const SizedBox(width: 24),
+                  const SizedBox(width: 28),
                   Expanded(flex: 5, child: formPanel),
                 ],
               )
@@ -200,25 +201,40 @@ class _ContactChoicePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(22),
+      padding: const EdgeInsets.all(26),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        color: SiteColors.surface,
+        borderRadius: BorderRadius.circular(SiteSpacing.radius),
+        border: Border.all(color: SiteColors.border),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0D0F172A),
+            blurRadius: 20,
+            offset: Offset(0, 7),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: const Color(0xFF2563EB), size: 26),
-              const SizedBox(width: 10),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: SiteColors.blueSoft,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: SiteColors.blue, size: 24),
+              ),
+              const SizedBox(width: 13),
               Expanded(
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: const Color(0xFF111827),
-                    fontWeight: FontWeight.w800,
+                    color: SiteColors.navy,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
@@ -228,7 +244,7 @@ class _ContactChoicePanel extends StatelessWidget {
           Text(
             body,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF4B5563),
+              color: SiteColors.textMuted,
               height: 1.6,
             ),
           ),

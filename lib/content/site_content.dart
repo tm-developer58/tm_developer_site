@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/app_work.dart';
 import '../models/skill_item.dart';
 import '../models/work_style_item.dart';
+import '../services/locale/site_language.dart';
 
 class SiteContent {
   const SiteContent({
@@ -12,6 +13,7 @@ class SiteContent {
     required this.email,
     required this.githubUrl,
     required this.headerLabels,
+    required this.navigation,
     required this.hero,
     required this.metrics,
     required this.about,
@@ -30,6 +32,7 @@ class SiteContent {
   final String email;
   final String githubUrl;
   final List<String> headerLabels;
+  final SiteNavigationContent navigation;
   final HeroContent hero;
   final List<MetricContent> metrics;
   final SectionCopy about;
@@ -41,6 +44,13 @@ class SiteContent {
   final String footerText;
   final String footerPrivacyLabel;
 
+  static SiteContent forLanguage(SiteLanguage language) {
+    return switch (language) {
+      SiteLanguage.ja => ja,
+      SiteLanguage.en => en,
+    };
+  }
+
   static const ja = SiteContent(
     brandName: 'TM Developer',
     pageTitle: 'TM Developer',
@@ -48,6 +58,13 @@ class SiteContent {
     email: 'tm.developer58@gmail.com',
     githubUrl: 'https://github.com/tm-developer58',
     headerLabels: ['Flutter', 'Firebase', 'App Store', 'Remote Work'],
+    navigation: SiteNavigationContent(
+      worksLabel: '実績',
+      skillsLabel: 'スキル',
+      workStyleLabel: '働き方',
+      contactLabel: '相談する',
+      languageToggleSemanticsLabel: '英語表示に切り替える',
+    ),
     hero: HeroContent(
       eyebrow: 'Flutter / Firebase Developer',
       title: '小規模なアプリ開発・改修を、設計からリリースまで対応します。',
@@ -60,9 +77,17 @@ class SiteContent {
       panelBody: 'Flutter / Firebaseで設計・開発・リリース・運用まで経験しています。',
     ),
     metrics: [
-      MetricContent(value: '3', label: '公開アプリ'),
-      MetricContent(value: '5,000+', label: '運用ユーザー'),
-      MetricContent(value: '2-3日', label: '週稼働目安'),
+      MetricContent(icon: Icons.apps_rounded, value: '3', label: '公開アプリ'),
+      MetricContent(
+        icon: Icons.people_alt_outlined,
+        value: '5,000+',
+        label: '運用ユーザー',
+      ),
+      MetricContent(
+        icon: Icons.calendar_today_outlined,
+        value: '2〜3日',
+        label: '週稼働目安',
+      ),
     ],
     about: SectionCopy(
       eyebrow: 'About',
@@ -93,6 +118,8 @@ class SiteContent {
       items: [
         AppWork(
           icon: Icons.coffee_outlined,
+          iconAsset: 'assets/apps/coffee_timer/icon.jpg',
+          screenshotAsset: 'assets/apps/coffee_timer/screenshot.jpg',
           title: 'コーヒータイマー',
           summary: 'コーヒーのレシピと豆を管理できるアプリ',
           tech: 'Flutter / Firebase',
@@ -102,6 +129,8 @@ class SiteContent {
         ),
         AppWork(
           icon: Icons.volume_up_outlined,
+          iconAsset: 'assets/apps/volume_changer/icon.jpg',
+          screenshotAsset: 'assets/apps/volume_changer/screenshot.jpg',
           title: '音量調整アプリ',
           summary: '音量を細かく調整できるユーティリティアプリ',
           tech: 'Flutter',
@@ -110,6 +139,8 @@ class SiteContent {
         ),
         AppWork(
           icon: Icons.restaurant_menu_outlined,
+          iconAsset: 'assets/apps/recipe_archive/icon.jpg',
+          screenshotAsset: 'assets/apps/recipe_archive/screenshot.jpg',
           title: 'レシピ保存・生成アプリ',
           summary: 'レシピの保存・タグ管理・生成を行うアプリ',
           tech: 'Flutter / Firebase / TypeScript',
@@ -149,11 +180,13 @@ class SiteContent {
       failureMessage: '送信できませんでした。メールリンクからご連絡ください。',
       requiredMessage: '入力してください',
       invalidEmailMessage: 'メールアドレスを確認してください',
+      maxLengthMessageTemplate: '{label}は{maxLength}文字以内で入力してください',
       mailNamePrefix: 'お名前',
       mailEmailPrefix: 'メール',
     ),
     privacyPolicy: PrivacyPolicyContent(
       pageTitle: 'プライバシーポリシー',
+      backToHomeLabel: 'トップへ戻る',
       lastUpdatedLabel: '制定日: 2026年7月5日',
       intro:
           'TM Developer（以下「当サイト」）は、当サイトの利用者に関する情報を適切に取り扱うため、以下の通りプライバシーポリシーを定めます。',
@@ -194,6 +227,210 @@ class SiteContent {
     footerText: 'TM Developer - Flutter / Firebase Developer',
     footerPrivacyLabel: 'プライバシーポリシー',
   );
+
+  static const en = SiteContent(
+    brandName: 'TM Developer',
+    pageTitle: 'TM Developer | Flutter & Firebase Developer',
+    description:
+        'Independent Flutter and Firebase developer providing iOS app design, development, release, and ongoing support.',
+    email: 'tm.developer58@gmail.com',
+    githubUrl: 'https://github.com/tm-developer58',
+    headerLabels: ['Flutter', 'Firebase', 'App Store', 'Remote Work'],
+    navigation: SiteNavigationContent(
+      worksLabel: 'Work',
+      skillsLabel: 'Skills',
+      workStyleLabel: 'Work Style',
+      contactLabel: 'Contact',
+      languageToggleSemanticsLabel: 'Switch to Japanese',
+    ),
+    hero: HeroContent(
+      eyebrow: 'Flutter / Firebase Developer',
+      title: 'From planning to release, I help ship focused app improvements.',
+      body:
+          'I independently develop and publish iOS apps. I can help enhance existing Flutter apps, integrate Firebase, resolve issues, and support App Store releases.',
+      primaryActionLabel: 'Discuss a project',
+      secondaryActionLabel: 'GitHub',
+      mailSubject: 'App development inquiry',
+      panelTitle: 'Released Apps',
+      panelBody:
+          'Hands-on experience across design, development, release, and ongoing operation with Flutter and Firebase.',
+    ),
+    metrics: [
+      MetricContent(
+        icon: Icons.apps_rounded,
+        value: '3',
+        label: 'Apps released',
+      ),
+      MetricContent(
+        icon: Icons.people_alt_outlined,
+        value: '5,000+',
+        label: 'Active users',
+      ),
+      MetricContent(
+        icon: Icons.calendar_today_outlined,
+        value: '2-3 days',
+        label: 'Available per week',
+      ),
+    ],
+    about: SectionCopy(
+      eyebrow: 'About',
+      title: 'Practical product experience that moves your app forward.',
+      body:
+          'I am an independent developer specializing in Flutter and Firebase. I have taught myself to build and release multiple iOS apps, including one serving approximately 5,000 active users.',
+    ),
+    skills: SkillsContent(
+      eyebrow: 'Skills',
+      title: 'End-to-end Flutter expertise, from implementation to operation.',
+      items: [
+        SkillItem(Icons.flutter_dash, 'Flutter / Dart'),
+        SkillItem(Icons.lock_outline, 'Firebase Authentication'),
+        SkillItem(Icons.storage_outlined, 'Cloud Firestore'),
+        SkillItem(Icons.cloud_upload_outlined, 'Firebase Storage'),
+        SkillItem(Icons.functions, 'Cloud Functions / TypeScript'),
+        SkillItem(Icons.ios_share, 'App Store releases'),
+        SkillItem(Icons.schema_outlined, 'App design, development & operation'),
+      ],
+    ),
+    works: WorksContent(
+      eyebrow: 'Work',
+      title: 'Independent apps published on the App Store',
+      appStoreButtonLabel: 'View on App Store',
+      techLabel: 'Technology',
+      roleLabel: 'Responsibilities',
+      roleValue: 'Design, development, release, and operation',
+      items: [
+        AppWork(
+          icon: Icons.coffee_outlined,
+          iconAsset: 'assets/apps/coffee_timer/icon.jpg',
+          screenshotAsset: 'assets/apps/coffee_timer/screenshot.jpg',
+          title: 'Coffee Timer',
+          summary: 'A coffee recipe and bean management app',
+          tech: 'Flutter / Firebase',
+          note:
+              'Designed a straightforward flow for entering, saving, and reviewing recipes and bean details over time.',
+          url:
+              'https://apps.apple.com/jp/app/コーヒータイマー-レシピと豆の管理アプリ/id6744885251',
+        ),
+        AppWork(
+          icon: Icons.volume_up_outlined,
+          iconAsset: 'assets/apps/volume_changer/icon.jpg',
+          screenshotAsset: 'assets/apps/volume_changer/screenshot.jpg',
+          title: 'Volume Control',
+          summary: 'A utility for making precise volume adjustments',
+          tech: 'Flutter',
+          note:
+              'Kept interactions to a minimum and focused the feature set so the app is quick to use in everyday situations.',
+          url: 'https://apps.apple.com/jp/app/音量調整-音量を微調整できるアプリ/id6502644391',
+        ),
+        AppWork(
+          icon: Icons.restaurant_menu_outlined,
+          iconAsset: 'assets/apps/recipe_archive/icon.jpg',
+          screenshotAsset: 'assets/apps/recipe_archive/screenshot.jpg',
+          title: 'Recipe Archive',
+          summary: 'An app for saving, tagging, and generating recipes',
+          tech: 'Flutter / Firebase / TypeScript',
+          note:
+              'Designed the saving, categorization, and browsing experience to make recipes easy to find again later.',
+          url: 'https://apps.apple.com/jp/app/レシピ保管庫-保存とタグ管理/id6752911070',
+        ),
+      ],
+    ),
+    workStyle: WorkStyleContent(
+      eyebrow: 'Work Style',
+      title: 'Start small and make steady, dependable progress.',
+      items: [
+        WorkStyleItem(
+          Icons.calendar_month_outlined,
+          'Available 2-3 days per week',
+        ),
+        WorkStyleItem(Icons.home_work_outlined, 'Fully remote preferred'),
+        WorkStyleItem(Icons.chat_bubble_outline, 'Asynchronous chat first'),
+        WorkStyleItem(
+          Icons.video_call_outlined,
+          'Available for short meetings',
+        ),
+        WorkStyleItem(
+          Icons.construction_outlined,
+          'Strong in design, implementation, and Firebase integration',
+        ),
+      ],
+    ),
+    contact: ContactContent(
+      eyebrow: 'Contact',
+      title: 'Discuss app development or improvements',
+      body:
+          'I can help with existing Flutter app improvements, Firebase integrations, and App Store release support.',
+      emailOptionTitle: 'Contact me by email',
+      emailOptionBody:
+          'Open your email app to send a message. Choose this option if you need to attach files or prefer using your usual email client.',
+      emailOptionButtonLabel: 'Open email app',
+      formOptionTitle: 'Send the form',
+      formOptionBody:
+          'Send your inquiry directly from this page. Your submission is stored so I can review and respond to it.',
+      nameLabel: 'Name',
+      emailLabel: 'Email address',
+      subjectLabel: 'Subject',
+      messageLabel: 'Message',
+      submitLabel: 'Send message',
+      submittingLabel: 'Sending',
+      successMessage:
+          'Your message has been sent. I will reply after reviewing it.',
+      failureMessage:
+          'Your message could not be sent. Please contact me using the email link.',
+      requiredMessage: 'This field is required',
+      invalidEmailMessage: 'Enter a valid email address',
+      maxLengthMessageTemplate:
+          '{label} must be {maxLength} characters or fewer',
+      mailNamePrefix: 'Name',
+      mailEmailPrefix: 'Email',
+    ),
+    privacyPolicy: PrivacyPolicyContent(
+      pageTitle: 'Privacy Policy',
+      backToHomeLabel: 'Back to home',
+      lastUpdatedLabel: 'Effective date: July 5, 2026',
+      intro:
+          'TM Developer ("this site") has established this Privacy Policy to explain how information about visitors is handled appropriately.',
+      sections: [
+        PrivacyPolicySection(
+          title: 'Information collected',
+          body:
+              'This site may collect the name, email address, subject, and message entered when a visitor submits an inquiry. It may also use cookies and similar technologies to collect information about browsing activity for analytics purposes.',
+        ),
+        PrivacyPolicySection(
+          title: 'How information is used',
+          body:
+              'Collected information is used to respond to inquiries, improve services, understand site usage, and provide necessary communications.',
+        ),
+        PrivacyPolicySection(
+          title: 'Analytics',
+          body:
+              'This site uses Google Analytics 4. Google Analytics uses cookies and similar technologies to collect information about visits. The information collected does not directly identify individual visitors.',
+        ),
+        PrivacyPolicySection(
+          title: 'Disclosure to third parties',
+          body:
+              'Personal information will not be disclosed to third parties without the individual\'s consent, except where required by law.',
+        ),
+        PrivacyPolicySection(
+          title: 'External links',
+          body:
+              'This site may contain links to external websites. This site is not responsible for how those external websites handle personal information.',
+        ),
+        PrivacyPolicySection(
+          title: 'Contact',
+          body:
+              'For questions about this Privacy Policy, please use the contact email address provided on this site.',
+        ),
+        PrivacyPolicySection(
+          title: 'Changes to this policy',
+          body:
+              'This policy may be updated when necessary. Any changes take effect when the revised policy is published on this site.',
+        ),
+      ],
+    ),
+    footerText: 'TM Developer - Flutter / Firebase Developer',
+    footerPrivacyLabel: 'Privacy Policy',
+  );
 }
 
 class HeroContent {
@@ -218,9 +455,30 @@ class HeroContent {
   final String panelBody;
 }
 
-class MetricContent {
-  const MetricContent({required this.value, required this.label});
+class SiteNavigationContent {
+  const SiteNavigationContent({
+    required this.worksLabel,
+    required this.skillsLabel,
+    required this.workStyleLabel,
+    required this.contactLabel,
+    required this.languageToggleSemanticsLabel,
+  });
 
+  final String worksLabel;
+  final String skillsLabel;
+  final String workStyleLabel;
+  final String contactLabel;
+  final String languageToggleSemanticsLabel;
+}
+
+class MetricContent {
+  const MetricContent({
+    required this.icon,
+    required this.value,
+    required this.label,
+  });
+
+  final IconData icon;
   final String value;
   final String label;
 }
@@ -301,6 +559,7 @@ class ContactContent {
     required this.failureMessage,
     required this.requiredMessage,
     required this.invalidEmailMessage,
+    required this.maxLengthMessageTemplate,
     required this.mailNamePrefix,
     required this.mailEmailPrefix,
   });
@@ -323,19 +582,28 @@ class ContactContent {
   final String failureMessage;
   final String requiredMessage;
   final String invalidEmailMessage;
+  final String maxLengthMessageTemplate;
   final String mailNamePrefix;
   final String mailEmailPrefix;
+
+  String maxLengthMessage(String label, int maxLength) {
+    return maxLengthMessageTemplate
+        .replaceAll('{label}', label)
+        .replaceAll('{maxLength}', '$maxLength');
+  }
 }
 
 class PrivacyPolicyContent {
   const PrivacyPolicyContent({
     required this.pageTitle,
+    required this.backToHomeLabel,
     required this.lastUpdatedLabel,
     required this.intro,
     required this.sections,
   });
 
   final String pageTitle;
+  final String backToHomeLabel;
   final String lastUpdatedLabel;
   final String intro;
   final List<PrivacyPolicySection> sections;

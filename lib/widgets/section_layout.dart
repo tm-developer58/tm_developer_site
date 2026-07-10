@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/site_theme.dart';
 import 'section_heading.dart';
 
 class SectionLayout extends StatelessWidget {
@@ -23,7 +24,7 @@ class SectionLayout extends StatelessWidget {
         final content = Text(
           body,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: const Color(0xFF4B5563),
+            color: SiteColors.textMuted,
             height: 1.8,
           ),
         );
@@ -34,7 +35,7 @@ class SectionLayout extends StatelessWidget {
             children: [
               const SizedBox(width: 2),
               Expanded(flex: 4, child: heading),
-              const SizedBox(width: 52),
+              const SizedBox(width: 72),
               Expanded(flex: 5, child: content),
             ],
           );

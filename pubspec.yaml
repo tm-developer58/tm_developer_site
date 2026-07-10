@@ -33,3 +33,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/apps/coffee_timer/
+    - assets/apps/volume_changer/
+    - assets/apps/recipe_archive/

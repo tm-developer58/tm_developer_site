@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/site_theme.dart';
+
 class SectionHeading extends StatelessWidget {
   const SectionHeading({required this.eyebrow, required this.title, super.key});
 
@@ -15,10 +17,11 @@ class SectionHeading extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            height: 1.35,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF111827),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            height: 1.3,
+            fontWeight: FontWeight.w900,
+            color: SiteColors.navy,
+            letterSpacing: -0.7,
           ),
         ),
       ],
@@ -36,8 +39,9 @@ class SectionEyebrow extends StatelessWidget {
     return Text(
       text,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-        color: const Color(0xFF2563EB),
-        fontWeight: FontWeight.w800,
+        color: SiteColors.blue,
+        fontWeight: FontWeight.w900,
+        letterSpacing: 0.4,
       ),
     );
   }

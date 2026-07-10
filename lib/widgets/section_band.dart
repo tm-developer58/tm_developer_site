@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/site_theme.dart';
+
 class SectionBand extends StatelessWidget {
   const SectionBand({required this.child, this.tinted = false, super.key});
 
@@ -9,11 +11,14 @@ class SectionBand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: tinted ? const Color(0xFFF0F4F8) : const Color(0xFFF7F8FA),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 54),
+      color: tinted ? SiteColors.canvas : SiteColors.surface,
+      padding: const EdgeInsets.symmetric(
+        horizontal: SiteSpacing.page,
+        vertical: SiteSpacing.section,
+      ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1120),
+          constraints: const BoxConstraints(maxWidth: SiteSpacing.contentWidth),
           child: child,
         ),
       ),

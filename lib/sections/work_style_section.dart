@@ -15,7 +15,7 @@ class WorkStyleSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeading(eyebrow: content.eyebrow, title: content.title),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
         LayoutBuilder(
           builder: (context, constraints) {
             final width = constraints.maxWidth >= 760

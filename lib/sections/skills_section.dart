@@ -15,13 +15,28 @@ class SkillsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeading(eyebrow: content.eyebrow, title: content.title),
-        const SizedBox(height: 24),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: content.items
-              .map((skill) => SkillChip(item: skill))
-              .toList(),
+        const SizedBox(height: 32),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth >= 980
+                ? 3
+                : constraints.maxWidth >= 600
+                ? 2
+                : 1;
+            final width = (constraints.maxWidth - (columns - 1) * 16) / columns;
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: content.items
+                  .map(
+                    (skill) => SizedBox(
+                      width: width,
+                      child: SkillChip(item: skill),
+                    ),
+                  )
+                  .toList(),
+            );
+          },
         ),
       ],
     );

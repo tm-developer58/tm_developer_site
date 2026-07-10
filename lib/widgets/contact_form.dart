@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../content/site_content.dart';
+import '../theme/site_theme.dart';
 
 class ContactForm extends StatelessWidget {
   const ContactForm({
@@ -99,13 +100,27 @@ class ContactForm extends StatelessWidget {
           ),
           if (statusMessage != null) ...[
             const SizedBox(height: 12),
-            Text(
-              statusMessage!,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: isError
-                    ? Theme.of(context).colorScheme.error
-                    : const Color(0xFF166534),
-                fontWeight: FontWeight.w600,
+            Semantics(
+              liveRegion: true,
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: isError
+                      ? Theme.of(
+                          context,
+                        ).colorScheme.errorContainer.withValues(alpha: 0.5)
+                      : const Color(0xFFF0FDF4),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  statusMessage!,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: isError
+                        ? Theme.of(context).colorScheme.error
+                        : SiteColors.success,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ),
           ],
@@ -140,16 +155,7 @@ class _ContactTextField extends StatelessWidget {
       maxLines: maxLines,
       maxLength: maxLength,
       validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-        ),
-      ),
+      decoration: InputDecoration(labelText: label),
     );
   }
 }
@@ -169,6 +175,7 @@ String? _emailValidator(String? value, ContactContent content) {
   final email = value!.trim();
   final lengthMessage = _maxLengthValidator(
     email,
+    content: content,
     label: content.emailLabel,
     maxLength: ContactForm.emailMaxLength,
   );
@@ -192,16 +199,22 @@ String? _textValidator(
   if (message != null) {
     return message;
   }
-  return _maxLengthValidator(value!.trim(), label: label, maxLength: maxLength);
+  return _maxLengthValidator(
+    value!.trim(),
+    content: content,
+    label: label,
+    maxLength: maxLength,
+  );
 }
 
 String? _maxLengthValidator(
   String value, {
+  required ContactContent content,
   required String label,
   required int maxLength,
 }) {
   if (value.length > maxLength) {
-    return '$labelは$maxLength文字以内で入力してください';
+    return content.maxLengthMessage(label, maxLength);
   }
   return null;
 }

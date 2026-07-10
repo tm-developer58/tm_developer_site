@@ -38,7 +38,6 @@ migrate_working_dir/
 .env.*
 !.env.example
 .firebase/
-docs/
 .firebaserc
 firebase.json
 firebase-debug.log

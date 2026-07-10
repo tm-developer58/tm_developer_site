@@ -1,39 +1,62 @@
 import 'package:flutter/material.dart';
 
-class MetricPill extends StatelessWidget {
-  const MetricPill({required this.value, required this.label, super.key});
+import '../theme/site_theme.dart';
 
+class MetricPill extends StatelessWidget {
+  const MetricPill({
+    required this.icon,
+    required this.value,
+    required this.label,
+    super.key,
+  });
+
+  final IconData icon;
   final String value;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 104,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF374151)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
+    return Semantics(
+      label: '$value $label',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: SiteColors.blueSoft,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(icon, color: SiteColors.blue, size: 22),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelSmall?.copyWith(color: const Color(0xFFD1D5DB)),
-          ),
-        ],
+            const SizedBox(width: 14),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: SiteColors.navy,
+                    fontWeight: FontWeight.w900,
+                    height: 1.05,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: SiteColors.textMuted,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

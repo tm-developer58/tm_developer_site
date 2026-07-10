@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/skill_item.dart';
+import '../theme/site_theme.dart';
 
 class SkillChip extends StatelessWidget {
   const SkillChip({required this.item, super.key});
@@ -9,29 +10,48 @@ class SkillChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 340),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Icon(item.icon, size: 20, color: const Color(0xFF0F766E)),
-          const SizedBox(width: 10),
-          Flexible(
-            child: Text(
-              item.label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF1F2937),
+    return Semantics(
+      label: item.label,
+      child: ExcludeSemantics(
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 68),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+          decoration: BoxDecoration(
+            color: SiteColors.surface,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SiteColors.border),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0D0F172A),
+                blurRadius: 14,
+                offset: Offset(0, 5),
               ),
-            ),
+            ],
           ),
-        ],
+          child: Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: SiteColors.blueSoft,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(item.icon, size: 21, color: SiteColors.blue),
+              ),
+              const SizedBox(width: 13),
+              Expanded(
+                child: Text(
+                  item.label,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: SiteColors.navy,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
