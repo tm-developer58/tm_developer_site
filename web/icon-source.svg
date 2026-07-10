@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">TM Developer</title>
+  <rect x="16" y="16" width="480" height="480" rx="120" fill="#2563EB"/>
+  <text
+    x="256"
+    y="330"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="224"
+    font-weight="900"
+    letter-spacing="-18"
+    text-anchor="middle"
+  >TM</text>
+</svg>
