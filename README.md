@@ -1,5 +1,7 @@
 # tm_developer_site
 
+[![CI](https://github.com/tm-developer58/tm_developer_site/actions/workflows/ci.yml/badge.svg)](https://github.com/tm-developer58/tm_developer_site/actions/workflows/ci.yml)
+
 TM Developerの個人向け仕事窓口LPです。Flutter / Firebaseでのアプリ開発実績、
 対応領域、稼働条件、お問い合わせ導線を日本語・英語で掲載します。
 
